@@ -97,7 +97,8 @@ class KNearestNeighbor:
       # Compute the l2 distance between the ith test point and all training #
       # points, and store the result in dists[i, :].                        #
       #######################################################################
-      pass
+      Y = self.X_train - X[i, :]
+      dists[i, :] = np.linalg.norm(Y, axis = 1)
       #######################################################################
       #                         END OF YOUR CODE                            #
       #######################################################################
@@ -121,7 +122,15 @@ class KNearestNeighbor:
     # HINT: Try to formulate the l2 distance using matrix multiplication    #
     #       and two broadcast sums.                                         #
     #########################################################################
-    pass
+
+    t1 = np.sum(np.square(X), axis = 1, keepdims=True)
+    t2 = np.sum(np.square(self.X_train), axis = 1)
+    
+    Y = np.add(t1, np.multiply(np.dot(X, self.X_train.T), -2))
+    Y = np.add(Y, t2)   
+
+    dists = np.sqrt(Y) 
+
     #########################################################################
     #                         END OF YOUR CODE                              #
     #########################################################################
@@ -173,10 +182,10 @@ class KNearestNeighbor:
       # Store this label in y_pred[i]. Break ties by choosing the smaller     #
       # label.                                                                #
       #########################################################################
-      print KN
-      print KN[:, 1]
+      #print KN
+      #print KN[:, 1]
       counts = np.bincount(KN[:,1].astype(int))
-      print self.y_train[np.argmax(counts)]
+      #print self.y_train[np.argmax(counts)]
       y_pred[i] = self.y_train[np.argmax(counts)]
 
       #########################################################################

@@ -70,12 +70,12 @@ plt.show()
 # In[ ]:
 
 # Subsample the data for more efficient code execution in this exercise
-num_training = 5000
+num_training = 50
 mask = range(num_training)
 X_train = X_train[mask]
 y_train = y_train[mask]
 
-num_test = 500
+num_test = 50
 mask = range(num_test)
 X_test = X_test[mask]
 y_test = y_test[mask]
@@ -146,7 +146,7 @@ y_test_pred = classifier.predict_labels(dists, k=1)
 num_correct = np.sum(y_test_pred == y_test)
 accuracy = float(num_correct) / num_test
 print 'Got %d / %d correct => accuracy: %f' % (num_correct, num_test, accuracy)
-sys.exit()
+
 
 # In[ ]:
 
@@ -184,6 +184,7 @@ else:
   print 'Uh-oh! The distance matrices are different'
 
 
+
 # In[ ]:
 
 # Let's compare how fast the implementations are
@@ -208,7 +209,6 @@ print 'No loop version took %f seconds' % no_loop_time
 
 # you should see significantly faster performance with the fully vectorized implementation
 
-
 # ### Cross-validation
 # 
 # We have implemented the k-Nearest Neighbor classifier but we set the value k = 5 arbitrarily. We will now determine the best value of this hyperparameter with cross-validation.
@@ -227,7 +227,14 @@ y_train_folds = []
 # y_train_folds[i] is the label vector for the points in X_train_folds[i].     #
 # Hint: Look up the numpy array_split function.                                #
 ################################################################################
-pass
+X_train_folds = np.array_split(X_train, num_folds)
+y_train_folds = np.array_split(y_train, num_folds)
+
+print len(X_train_folds)
+print len(y_train_folds)
+print X_train_folds[3].shape
+print y_train_folds[3].shape
+
 ################################################################################
 #                                 END OF YOUR CODE                             #
 ################################################################################
